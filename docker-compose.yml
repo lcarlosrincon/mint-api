@@ -1,0 +1,37 @@
+version: '3'
+services:
+  db:
+    container_name: mint_demo_pg
+    hostname: db.local
+    image: postgres:13.5-alpine
+    environment:
+      - POSTGRES_DB=mint
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5432:5432"
+
+  db2:
+    container_name: mint_demo_pg_2
+    hostname: db2.local
+    image: postgres:13.5-alpine
+    environment:
+      - POSTGRES_DB=mint_db
+      - POSTGRES_USER=mint
+      - POSTGRES_PASSWORD=mint
+    ports:
+      - "5433:5432"
+
+  api:
+    image: 'mint-spring-boot-postgres:latest'
+    build:
+      context: .
+    container_name: api
+    depends_on:
+      - db
+      - db2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+    ports:
+      - "8082:8080"

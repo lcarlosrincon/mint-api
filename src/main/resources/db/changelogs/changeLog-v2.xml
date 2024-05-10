@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="SAO 1645 (generated)" id="mint-21">
+        <preConditions>
+            <changeSetExecuted id="mint-15" author="SAO 1645 (generated)" changeLogFile="./db/changelogs/changeLog-v1.xml" />
+        </preConditions>
+        <insert tableName="instructors">
+            <column name="id" value="111"/>
+            <column name="first_name" value="Luis"/>
+            <column name="last_name" value="Rincon"/>
+            <column name="birthday" valueDate="1991-03-05"/>
+        </insert>
+        <insert tableName="instructors">
+            <column name="id" value="222"/>
+            <column name="first_name" value="Carlos"/>
+            <column name="last_name" value="Blanco"/>
+            <column name="birthday" valueDate="1990-01-01"/>
+        </insert>
+        <insert tableName="instructors">
+            <column name="id" value="333"/>
+            <column name="first_name" value="Eric"/>
+            <column name="last_name" value="Tester"/>
+            <column name="birthday" valueDate="1990-01-01"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
