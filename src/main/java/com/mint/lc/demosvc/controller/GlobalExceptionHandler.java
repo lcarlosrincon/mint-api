@@ -1,5 +1,6 @@
 package com.mint.lc.demosvc.controller;
 
+import com.mint.lc.demosvc.service.UnauthenticatedUserException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +24,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String getIllegalArgument(IllegalArgumentException e) {
         log.error("Illegal Argument Exception", e);
+        return e.getMessage();
+    }
+
+    @ExceptionHandler({UnauthenticatedUserException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String getUnauthorized(UnauthenticatedUserException e) {
+        log.error("No authorized", e);
         return e.getMessage();
     }
 
