@@ -1,5 +1,6 @@
 package com.mint.lc.demosvc.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mint.lc.demosvc.repository.InstructorRepository;
 import com.mint.lc.demosvc.repository.model.Event;
 import com.mint.lc.demosvc.repository.model.Instructor;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -38,6 +40,9 @@ class InstructorControllerTest {
 
     @InjectMocks
     private InstructorController instructorController;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void testGetAllInstructors() throws Exception {
@@ -77,11 +82,12 @@ class InstructorControllerTest {
     @Test
     void testSaveEvent() throws Exception {
         Event event = new Event();
+        EventRequest eventRequest = new EventRequest(LocalDate.now(), LocalDate.now(), "Test", "abc");
         when(eventService.save(anyString(), any(EventRequest.class))).thenReturn(event);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/instructors/1/events")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
+                        .content(objectMapper.writeValueAsString(eventRequest)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 

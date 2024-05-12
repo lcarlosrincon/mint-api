@@ -46,6 +46,7 @@ public class InstructorController {
     @ResponseStatus(HttpStatus.CREATED)
     public Event save(@PathVariable("instructorId") String instructorId,
                       @RequestBody EventRequest request) {
+        log.info("An event has been created", request);
         return this.eventService.save(instructorId, request);
     }
 
