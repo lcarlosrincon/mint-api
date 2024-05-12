@@ -6,6 +6,7 @@ import com.mint.lc.demosvc.repository.model.Event;
 import com.mint.lc.demosvc.repository.model.Instructor;
 import com.mint.lc.demosvc.service.EventRequest;
 import com.mint.lc.demosvc.service.EventService;
+import com.mint.lc.demosvc.service.ExternalEventService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,6 +38,9 @@ class InstructorControllerTest {
 
     @MockBean
     private EventService eventService;
+
+    @MockBean
+    private ExternalEventService externalEventService;
 
     @InjectMocks
     private InstructorController instructorController;
@@ -139,4 +143,16 @@ class InstructorControllerTest {
                         .content("{}"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
+    @Test
+    void testSaveExternalEvent() throws Exception {
+        Event event = new Event();
+        when(externalEventService.saveExternals(anyString(), anyString())).thenReturn(List.of(event));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/instructors/1/events/externals")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("month", "2024-05"))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+    }
+
 }
