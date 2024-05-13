@@ -64,7 +64,10 @@ public class EventServiceImpl implements EventService {
     }
 
     public Event deleteEvent(String instructorId, UUID eventId) {
-        return this.eventRepository.findByIdAndInstructorId(eventId, instructorId).orElseThrow();
+        log.info("Deleting event " + eventId);
+        Event event = this.eventRepository.findByIdAndInstructorId(eventId, instructorId).orElseThrow();
+        this.eventRepository.delete(event);
+        return event;
     }
 
     public Event updateEvent(String instructorId, UUID eventId, EventRequest request) {
