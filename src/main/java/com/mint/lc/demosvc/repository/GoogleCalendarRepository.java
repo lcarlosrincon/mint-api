@@ -47,7 +47,7 @@ public class GoogleCalendarRepository implements ExternalCalendarRepository {
 
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException {
-        InputStream in = CalendarQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream in = GoogleCalendarRepository.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
@@ -60,8 +60,7 @@ public class GoogleCalendarRepository implements ExternalCalendarRepository {
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8081).build();
-        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-        return credential;
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
     private Calendar service;
