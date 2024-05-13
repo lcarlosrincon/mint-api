@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class EventType {
 
     public static final String GOOGLE_CALENDAR_ID = "googleType";
+    public static final String MINT_ID = "mintType";
 
     @Id
     private String id;
