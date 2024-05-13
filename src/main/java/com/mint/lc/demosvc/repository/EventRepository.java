@@ -16,4 +16,6 @@ public interface EventRepository extends JpaRepository<Event, String> {
     List<Event> findByInstructorAndDate(String instructorId, LocalDate startDate, LocalDate endDate);
 
     Optional<Event> findByIdAndInstructorId(UUID eventId, String instructorId);
+
+    Optional<Event> findByExternalId(String externalId);
 }

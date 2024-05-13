@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "events")
-@Builder
+@Builder(toBuilder = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,4 +29,5 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "event_type_id")
     private EventType eventType;
+    private String externalId;
 }
