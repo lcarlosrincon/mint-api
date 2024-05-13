@@ -12,7 +12,11 @@ import java.util.UUID;
 public interface EventRepository extends JpaRepository<Event, String> {
     List<Event> findByInstructorIdEquals(String instructorId);
 
-    @Query("select event from Event event where event.instructorId=?1 and event.startDate between ?2 and ?3")
+    @Query("""
+            select event from Event event
+            where event.instructorId=?1 and (event.startDate between ?2 and ?3
+            or event.endDate between ?2 and ?3)
+            """)
     List<Event> findByInstructorAndDate(String instructorId, LocalDate startDate, LocalDate endDate);
 
     Optional<Event> findByIdAndInstructorId(UUID eventId, String instructorId);
