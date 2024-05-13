@@ -1,0 +1,12 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="SAO 1645 (generated)" id="mint-51">
+        <preConditions>
+            <changeSetExecuted id="mint-15" author="SAO 1645 (generated)" changeLogFile="./db/changelogs/changeLog-v1.xml" />
+        </preConditions>
+        <insert tableName="event_types">
+            <column name="id" value="mintType"/>
+            <column name="name" value="Default Mint Calendar Type"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

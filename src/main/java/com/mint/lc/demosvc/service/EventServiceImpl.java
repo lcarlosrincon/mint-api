@@ -4,6 +4,7 @@ import com.mint.lc.demosvc.repository.EventRepository;
 import com.mint.lc.demosvc.repository.EventTypeRepository;
 import com.mint.lc.demosvc.repository.InstructorRepository;
 import com.mint.lc.demosvc.repository.model.Event;
+import com.mint.lc.demosvc.repository.model.EventType;
 import com.mint.lc.demosvc.repository.model.Instructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,8 @@ public class EventServiceImpl implements EventService {
                 .description(request.description())
                 .endDate(request.endDate())
                 .startDate(request.startDate())
-                .eventType(this.eventTypeRepository.findById(request.eventType())
+                .eventType(this.eventTypeRepository.findById(request.eventType() != null ?
+                                request.eventType() : EventType.MINT_ID)
                         .orElseThrow(() -> new NoSuchElementException("Event type not found")))
                 .build();
     }
