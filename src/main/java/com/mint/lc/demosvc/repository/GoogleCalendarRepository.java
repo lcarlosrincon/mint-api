@@ -19,6 +19,7 @@ import com.mint.lc.demosvc.repository.model.Event;
 import com.mint.lc.demosvc.repository.model.EventType;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
 import java.io.FileNotFoundException;
@@ -35,6 +36,7 @@ import java.util.List;
 
 @Repository
 @Slf4j
+@ConditionalOnProperty(value = "integration.feature.enabled", havingValue = "true", matchIfMissing = true)
 public class GoogleCalendarRepository implements ExternalCalendarRepository {
 
     private static final String APPLICATION_NAME = "proyecto-prueba-275003";

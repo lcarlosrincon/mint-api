@@ -31,13 +31,15 @@ public class ExternalEventServiceImpl implements ExternalEventService {
     @Autowired
     private final EventTypeRepository eventTypeRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private final List<ExternalCalendarRepository> externalCalendarRepositories;
 
     @Override
     public List<Event> saveExternals(String instructorId, String month) {
         this.instructorRepository.findById(instructorId).orElseThrow(() -> new NoSuchElementException("Instructor not found"));
         List<Event> externalEvents = Lists.newArrayList();
+        if (this.externalCalendarRepositories == null)
+            return externalEvents;
         for (ExternalCalendarRepository repo : this.externalCalendarRepositories) {
             try {
                 externalEvents.addAll(repo.getEvents(instructorId,
