@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/instructors")
+@RequestMapping("/v1/instructors")
 @RequiredArgsConstructor
 @Slf4j
 public class InstructorController {

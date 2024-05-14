@@ -53,7 +53,7 @@ class InstructorControllerTest {
         List<Instructor> instructors = Arrays.asList(new Instructor(), new Instructor());
         when(instructorRepository.findAll()).thenReturn(instructors);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/instructors")
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/instructors")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(instructors.size()));
@@ -65,7 +65,7 @@ class InstructorControllerTest {
         instructor.setId("1");
         when(instructorRepository.findById(anyString())).thenReturn(Optional.of(instructor));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/instructors/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/instructors/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(instructor.getId()));
@@ -76,7 +76,7 @@ class InstructorControllerTest {
         List<Event> events = Collections.singletonList(new Event());
         when(eventService.getEventsById(anyString(), anyString())).thenReturn(events);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/instructors/1/events")
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/instructors/1/events")
                         .param("month", "2024-05")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -89,7 +89,7 @@ class InstructorControllerTest {
         EventRequest eventRequest = new EventRequest(LocalDate.now(), LocalDate.now(), "Test", "abc");
         when(eventService.save(anyString(), any(EventRequest.class))).thenReturn(event);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/instructors/1/events")
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/instructors/1/events")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(eventRequest)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
@@ -100,7 +100,7 @@ class InstructorControllerTest {
         Event event = new Event();
         when(eventService.deleteEvent(anyString(), any(UUID.class))).thenReturn(event);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/instructors/1/events/" + UUID.randomUUID())
+        mockMvc.perform(MockMvcRequestBuilders.delete("/v1/instructors/1/events/" + UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isAccepted());
     }
@@ -110,7 +110,7 @@ class InstructorControllerTest {
         Event event = new Event();
         when(eventService.updateEvent(anyString(), any(UUID.class), any(EventRequest.class))).thenReturn(event);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/instructors/1/events/" + UUID.randomUUID())
+        mockMvc.perform(MockMvcRequestBuilders.put("/v1/instructors/1/events/" + UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -119,7 +119,7 @@ class InstructorControllerTest {
     @Test
     void givenInvalidUUID_whenUpdateEvent_then400IsExpected() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/instructors/1/events/123")
+        mockMvc.perform(MockMvcRequestBuilders.put("/v1/instructors/1/events/123")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
@@ -128,7 +128,7 @@ class InstructorControllerTest {
     @Test
     void givenUnexpectedError_whenUpdateEvent_then500IsExpected() throws Exception {
         when(eventService.updateEvent(anyString(), any(UUID.class), any(EventRequest.class))).thenThrow(RuntimeException.class);
-        mockMvc.perform(MockMvcRequestBuilders.put("/instructors/1/events/"+UUID.randomUUID())
+        mockMvc.perform(MockMvcRequestBuilders.put("/v1/instructors/1/events/"+UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(MockMvcResultMatchers.status().is5xxServerError());
@@ -138,7 +138,7 @@ class InstructorControllerTest {
     void testGivenInstructorNotFound_whenUpdateEvent_thenCheckNotFoundStatus() throws Exception {
         when(eventService.updateEvent(anyString(), any(UUID.class), any(EventRequest.class))).thenThrow(NoSuchElementException.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/instructors/1/events/" + UUID.randomUUID())
+        mockMvc.perform(MockMvcRequestBuilders.put("/v1/instructors/1/events/" + UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
@@ -149,7 +149,7 @@ class InstructorControllerTest {
         Event event = new Event();
         when(externalEventService.saveExternals(anyString(), anyString())).thenReturn(List.of(event));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/instructors/1/events/externals")
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/instructors/1/events/externals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("month", "2024-05"))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
